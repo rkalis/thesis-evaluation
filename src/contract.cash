@@ -1,0 +1,21 @@
+contract Contract(
+    pubkey alicePk,
+    pubkey bobPk,
+    pubkey carolPk,
+    bytes32 dataHash,
+    int timeout
+) {
+    function alice(sig aliceSig) {
+        require(checkSig(aliceSig, alicePk));
+    }
+
+    function bob(sig bobSig) {
+        require(checkSig(bobSig, bobPk));
+        require(tx.time >= timeout);
+    }
+
+    function carol(sig carolSig, bytes preimage) {
+        require(checkSig(carolSig, carolPk));
+        require(sha256(preimage) == dataHash);
+    }
+}
