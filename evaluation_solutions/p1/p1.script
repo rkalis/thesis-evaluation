@@ -1,0 +1,10 @@
+IF
+  <alice_sig> <alicePk> CHECKSIGVERIFY
+ELSE
+  IF
+    <timeout> CHECKSEQUENCEVERIFY DROP
+    <bob_sig> <bobPk> CHECKSIGVERIFY
+  ELSE
+    <carol_input> SHA256 <dataHash> EQUAL
+  ENDIF
+ENDIF

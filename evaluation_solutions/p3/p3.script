@@ -1,0 +1,11 @@
+IF
+  IF
+    <alice pk> CHECKSIG
+  ELSE
+    <timeout> CHECKLOCKTIMEVERIFY DROP
+    <bob pk> CHECKSIG
+  ENDIF
+ELSE
+  SHA256 <data hash> EQUALVERIFY
+  <carol pk> CHECKSIG
+ENDIF

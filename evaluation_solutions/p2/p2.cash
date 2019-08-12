@@ -1,0 +1,21 @@
+contract Evaluation(
+    pubkey alicePk,
+    pubkey bobPk,
+    pubkey carolPk,
+    int expiration,
+    bytes32 hash
+) {
+    function alice(sig s) {
+        require(checkSig(s, alicePk));
+    }
+
+    function bob(sig s) {
+        require(checkSig(s, bobPk));
+        require(tx.time >= expiration);
+    }
+
+    function carol(sig s, bytes preimage) {
+        require(checkSig(s, carolPk));
+        require(sha256(preimage) == hash);
+    }
+}

@@ -1,0 +1,19 @@
+DUP DUP
+<alicePk> CHECKSIG
+IF
+  TRUE
+ELSE
+  <bobPk> CHECKSIG
+  IF
+    <timeout> CHECKLOCKTIMEVERIFY VERIFY
+  ELSE
+    <carolPk> CHECKSIG
+    IF
+      HASH256 <dataHash> EQUAL VERIFY
+    ELSE
+      RETURN // invalidate the transaction
+    ENDIF
+  ENDIF
+ELSE
+  RETURN
+ENDIF

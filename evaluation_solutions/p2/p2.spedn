@@ -1,0 +1,24 @@
+contract Evaluation(
+    Ripemd160 alice,
+    Ripemd160 bob,
+    Ripemd160 carol,
+    int expiration,
+    Sha256 hash
+) {
+    challenge alice(Sig sig, PubKey pubKey) {
+        verify hash160(pubKey) == alice;
+        verify checkSig(sig, pubKey);
+    }
+
+    challenge bob(Sig sig, PubKey pubKey) {
+        verify hash160(pubKey) == bob;
+        verify checkSig(sig, pubKey);
+        verify checkLockTime(TimeStamp(expiration));
+    }
+
+    challenge carol(Sig sig, PubKey pubKey, bin preimage) {
+        verify hash160(pubKey) == carol;
+        verify checkSig(sig, pubKey);
+        verify sha256(preimage) == hash;
+    }
+}

@@ -1,0 +1,66 @@
+{
+  "contractName": "Evaluation",
+  "constructorInputs": [
+    {
+      "name": "timeout",
+      "type": "int"
+    },
+    {
+      "name": "dataHash",
+      "type": "bytes32"
+    },
+    {
+      "name": "alicePk",
+      "type": "pubkey"
+    },
+    {
+      "name": "bobPk",
+      "type": "pubkey"
+    },
+    {
+      "name": "carolPk",
+      "type": "pubkey"
+    }
+  ],
+  "abi": [
+    {
+      "name": "alice",
+      "inputs": [
+        {
+          "name": "aliceSig",
+          "type": "sig"
+        }
+      ]
+    },
+    {
+      "name": "bob",
+      "inputs": [
+        {
+          "name": "bobSig",
+          "type": "sig"
+        }
+      ]
+    },
+    {
+      "name": "carol",
+      "inputs": [
+        {
+          "name": "carolSig",
+          "type": "sig"
+        },
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    }
+  ],
+  "bytecode": "OP_5 OP_PICK OP_0 OP_NUMEQUAL OP_IF OP_6 OP_PICK OP_3 OP_PICK OP_CHECKSIG OP_VERIFY OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_1 OP_ELSE OP_5 OP_PICK OP_1 OP_NUMEQUAL OP_IF OP_6 OP_PICK OP_4 OP_PICK OP_CHECKSIG OP_VERIFY OP_0 OP_PICK OP_CHECKLOCKTIMEVERIFY OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_1 OP_ELSE OP_5 OP_PICK OP_2 OP_NUMEQUAL OP_IF OP_6 OP_PICK OP_5 OP_PICK OP_CHECKSIG OP_VERIFY OP_7 OP_PICK OP_SHA256 OP_2 OP_PICK OP_EQUAL OP_VERIFY OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_1 OP_ENDIF OP_ENDIF OP_ENDIF",
+  "source": "contract Evaluation(\n    int timeout, bytes32 dataHash, pubkey alicePk, pubkey bobPk, pubkey carolPk\n) {\n    function alice(sig aliceSig) {\n        require(checkSig(aliceSig, alicePk));\n    }\n\n    function bob(sig bobSig) {\n        require(checkSig(bobSig, bobPk));\n        require(tx.time >= timeout);\n    }\n\n    function carol(sig carolSig, bytes data) {\n        require(checkSig(carolSig, carolPk));\n        require(sha256(data) == dataHash);\n    }\n}\n",
+  "networks": {},
+  "compiler": {
+    "name": "cashc",
+    "version": "v0.1.0-beta.1"
+  },
+  "updatedAt": "2019-08-07T21:36:02.790Z"
+}

@@ -1,0 +1,21 @@
+contract Evaluation(
+    PubKey alicePk,
+    PubKey bobPk,
+    PubKey carolPk,
+    Sha256 imageHash,
+    TimeSpan timeout
+) {
+    challenge aliceSpend(Sig aliceSig) {
+        verify checkSig(aliceSig, alicePk);
+    }
+
+    challenge bobSpend(Sig bobSig) {
+        verify checkSequence(timeout);
+        verify checkSig(bobSig, bobPk);
+    }
+
+    challenge carolSpend(Sig carolSig, bin preimage) {
+        verify hash256(preimage) == imageHash;
+        verify checkSig(carolSig, carolPk);
+    }
+}

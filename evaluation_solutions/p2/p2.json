@@ -1,0 +1,66 @@
+{
+  "contractName": "Evaluation",
+  "constructorInputs": [
+    {
+      "name": "alicePk",
+      "type": "pubkey"
+    },
+    {
+      "name": "bobPk",
+      "type": "pubkey"
+    },
+    {
+      "name": "carolPk",
+      "type": "pubkey"
+    },
+    {
+      "name": "expiration",
+      "type": "int"
+    },
+    {
+      "name": "hash",
+      "type": "bytes32"
+    }
+  ],
+  "abi": [
+    {
+      "name": "alice",
+      "inputs": [
+        {
+          "name": "s",
+          "type": "sig"
+        }
+      ]
+    },
+    {
+      "name": "bob",
+      "inputs": [
+        {
+          "name": "s",
+          "type": "sig"
+        }
+      ]
+    },
+    {
+      "name": "carol",
+      "inputs": [
+        {
+          "name": "s",
+          "type": "sig"
+        },
+        {
+          "name": "preimage",
+          "type": "bytes"
+        }
+      ]
+    }
+  ],
+  "bytecode": "OP_5 OP_PICK OP_0 OP_NUMEQUAL OP_IF OP_6 OP_PICK OP_1 OP_PICK OP_CHECKSIG OP_VERIFY OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_1 OP_ELSE OP_5 OP_PICK OP_1 OP_NUMEQUAL OP_IF OP_6 OP_PICK OP_2 OP_PICK OP_CHECKSIG OP_VERIFY OP_3 OP_PICK OP_CHECKLOCKTIMEVERIFY OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_1 OP_ELSE OP_5 OP_PICK OP_2 OP_NUMEQUAL OP_IF OP_6 OP_PICK OP_3 OP_PICK OP_CHECKSIG OP_VERIFY OP_7 OP_PICK OP_SHA256 OP_5 OP_PICK OP_EQUAL OP_VERIFY OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_1 OP_ENDIF OP_ENDIF OP_ENDIF",
+  "source": "contract Evaluation(\n    pubkey alicePk, pubkey bobPk, pubkey carolPk, int expiration, bytes32 hash\n) {\n    function alice(sig s) {\n        require(checkSig(s, alicePk));\n    }\n\n    function bob(sig s) {\n        require(checkSig(s, bobPk));\n        require(tx.time >= expiration);\n    }\n\n    function carol(sig s, bytes preimage) {\n        require(checkSig(s, carolPk));\n        require(sha256(preimage) == hash);\n    }\n}\n",
+  "networks": {},
+  "compiler": {
+    "name": "cashc",
+    "version": "v0.1.0-beta.1"
+  },
+  "updatedAt": "2019-08-07T21:33:42.295Z"
+}

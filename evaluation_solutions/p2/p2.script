@@ -1,0 +1,16 @@
+<alicePk> CHECKSIG
+IF
+  TRUE
+ELSE
+  <bobPk> CHECKSIG
+  IF
+    <timeout> CHECKLOCKTIMEVERIFY
+  ELSE
+    <carolPk> CHECKSIG
+    IF
+      SHA256 <dataHash> EQUAL
+    ELSE
+      FALSE
+    ENDIF
+  ENDIF
+ENDIF

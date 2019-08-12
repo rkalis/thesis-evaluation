@@ -1,0 +1,21 @@
+contract Evaluation(
+    pubkey alicePK,
+    pubkey bobPK,
+    pubkey carolPK,
+    int timeout,
+    bytes32 dataHash
+) {
+    function aliceChallange(sig s) {
+        require(checkSig(s, alicePK));
+    }
+
+    function bobChallange(sig s) {
+        require(checkSig(s, bobPK));
+        require(tx.time >= timeout);
+    }
+
+    function carolChallange(sig s, bytes32 hashPreimage) {
+        require(checkSig(s, carolPK));
+        require(sha256(hashPreimage) == dataHash);
+    }
+}

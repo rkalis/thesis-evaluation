@@ -1,0 +1,66 @@
+{
+  "contractName": "Evaluation",
+  "constructorInputs": [
+    {
+      "name": "alicePk",
+      "type": "pubkey"
+    },
+    {
+      "name": "bobPk",
+      "type": "pubkey"
+    },
+    {
+      "name": "carolPk",
+      "type": "pubkey"
+    },
+    {
+      "name": "dataHash",
+      "type": "bytes32"
+    },
+    {
+      "name": "timeout",
+      "type": "int"
+    }
+  ],
+  "abi": [
+    {
+      "name": "aliceTx",
+      "inputs": [
+        {
+          "name": "aliceSig",
+          "type": "sig"
+        }
+      ]
+    },
+    {
+      "name": "bobTx",
+      "inputs": [
+        {
+          "name": "bobSig",
+          "type": "sig"
+        }
+      ]
+    },
+    {
+      "name": "carolTx",
+      "inputs": [
+        {
+          "name": "carolSig",
+          "type": "sig"
+        },
+        {
+          "name": "preimage",
+          "type": "bytes"
+        }
+      ]
+    }
+  ],
+  "bytecode": "OP_5 OP_PICK OP_0 OP_NUMEQUAL OP_IF OP_6 OP_PICK OP_1 OP_PICK OP_CHECKSIG OP_VERIFY OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_1 OP_ELSE OP_5 OP_PICK OP_1 OP_NUMEQUAL OP_IF OP_4 OP_PICK OP_CHECKLOCKTIMEVERIFY OP_DROP OP_6 OP_PICK OP_2 OP_PICK OP_CHECKSIG OP_VERIFY OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_1 OP_ELSE OP_5 OP_PICK OP_2 OP_NUMEQUAL OP_IF OP_7 OP_PICK OP_SHA256 OP_4 OP_PICK OP_EQUAL OP_VERIFY OP_6 OP_PICK OP_3 OP_PICK OP_CHECKSIG OP_VERIFY OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_DROP OP_1 OP_ENDIF OP_ENDIF OP_ENDIF",
+  "source": "contract Evaluation(\n  pubkey alicePk, pubkey bobPk, pubkey carolPk, bytes32 dataHash, int timeout\n) {\n    function aliceTx(sig aliceSig) {\n        require(checkSig(aliceSig, alicePk));\n    }\n\n    function bobTx(sig bobSig) {\n        require(tx.time >= timeout);\n        require(checkSig(bobSig, bobPk));\n    }\n\n    function carolTx(sig carolSig, bytes preimage) {\n        require(sha256(preimage) == dataHash);\n        require(checkSig(carolSig, carolPk));\n    }\n}\n",
+  "networks": {},
+  "compiler": {
+    "name": "cashc",
+    "version": "v0.1.0-beta.1"
+  },
+  "updatedAt": "2019-08-07T21:41:20.095Z"
+}

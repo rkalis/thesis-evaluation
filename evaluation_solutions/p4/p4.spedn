@@ -1,0 +1,20 @@
+contract Evaluation(
+    PubKey alicePK,
+    PubKey bobPK,
+    PubKey carolPK,
+    Sha256 dataHash
+) {
+    challenge aliceChallange(Sig sig) {
+        verify checkSig(sig, alicePK);
+    }
+
+    challenge bobChallenge(Sig sig, Time timeout) {
+        verify checkSig(sig, bobPK);
+        verify checkLockTime(timeout);
+    }
+
+    challenge carolChallange(Sig sig, bin hashPreimage) {
+        verify checkSig(sig, carolPK);
+        verify hash256(hashPreimage) == dataHash;
+    }
+}

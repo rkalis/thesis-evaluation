@@ -1,0 +1,10 @@
+IF
+  <alicePk> CHECKSIG
+ELSE
+  IF
+    <blockheight> CHECKLOCKTIMEVERIFY DROP DUP HASH160 <bobPk-hash> EQUALVERIFY CHECKSIG
+  ELSE
+    <carolPreImg> SHA256 <dataHash> EQUALVERIFY
+    <carolSig> CHECKSIG
+  ENDIF
+ENDIF
